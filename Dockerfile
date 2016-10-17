@@ -1,10 +1,39 @@
-FROM ubuntu:trusty
-MAINTAINER Fernando Mayo <fernando@tutum.co>, Feng Honglin <hfeng@tutum.co>
+FROM ubuntu:xenial
+MAINTAINER Fernando Mayo <fernando@tutum.co>, Feng Honglin <hfeng@tutum.co>, Martin Di Palma <tincho.dipalma@gmail.com>
 
 # Install packages
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
-  apt-get -y install supervisor git apache2 libapache2-mod-php5 mysql-server php5-mysql pwgen php-apc php5-mcrypt && \
+  apt-get -y install supervisor \
+    python-software-properties \
+    software-properties-common \
+    build-essential \
+    libssl-dev \
+    openssl \
+    curl \
+    ruby \
+    git \
+    vim \
+    zip \
+    nano \
+    unzip \
+    apache2 \
+    pwgen \
+    mariadb-server \
+    libapache2-mod-php7.0 \
+    php7.0 \
+    php7.0-cli \
+    php7.0-mysql \
+    php7.0-curl \
+    php7.0-json \
+    php7.0-xml \
+    php7.0-tidy \
+    php7.0-intl \
+    php7.0-bz2 \
+    php7.0-mbstring \
+    php-apcu \
+    php-pear \
+    php7.0-mcrypt && \
   echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Add image configuration and scripts
@@ -15,9 +44,6 @@ RUN chmod 755 /*.sh
 ADD my.cnf /etc/mysql/conf.d/my.cnf
 ADD supervisord-apache2.conf /etc/supervisor/conf.d/supervisord-apache2.conf
 ADD supervisord-mysqld.conf /etc/supervisor/conf.d/supervisord-mysqld.conf
-
-# Remove pre-installed database
-RUN rm -rf /var/lib/mysql/*
 
 # Add MySQL utils
 ADD create_mysql_admin_user.sh /create_mysql_admin_user.sh
@@ -35,8 +61,5 @@ RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
 
-# Add volumes for MySQL 
-VOLUME  ["/etc/mysql", "/var/lib/mysql" ]
-
-EXPOSE 80 3306
+EXPOSE 80 443 3306
 CMD ["/run.sh"]
