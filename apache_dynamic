@@ -1,0 +1,18 @@
+# get the server name from the Host: header
+UseCanonicalName Off
+
+<VirtualHost *:80>
+	ServerName .yii2
+	# this log format can be split per-virtual-host based on the first field
+	# using the split-logfile utility.
+	LogFormat "%V %h %l %u %t \"%r\" %s %b" vcommon
+
+	# include the server name in the filenames used to satisfy requests
+	VirtualDocumentRoot "/var/www/html/%0/httpdocs/backend/web"
+	VirtualScriptAlias  "/var/www/html/%0/cgi-bin"
+
+	<Directory /var/www/html/>
+		Options FollowSymLinks
+		AllowOverride All
+	</Directory>
+</VirtualHost>

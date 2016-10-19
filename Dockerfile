@@ -10,6 +10,7 @@ RUN apt-get update && \
     build-essential \
     libssl-dev \
     openssl \
+    openssh-server \
     curl \
     ruby \
     git \
@@ -53,6 +54,18 @@ RUN chmod 755 /*.sh
 ADD apache_default /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
+# config to enable dynamic domains
+ADD apache_dynamic /etc/apache2/conf-available/apache-dynamic.conf
+RUN a2enconf apache-dynamic
+
+# Setting up OpenSSh
+RUN mkdir /var/run/sshd
+RUN echo 'root:$ROOT_PASSWORD' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+ENV NOTVISIBLE "in users profile"
+RUN echo "export VISIBLE=now" >> /etc/profile
+
 # Configure /app folder with sample app
 RUN git clone https://github.com/fermayo/hello-world-lamp.git /app
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
@@ -61,5 +74,5 @@ RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
 
-EXPOSE 80 443 3306
+EXPOSE 22 80 443 3306
 CMD ["/run.sh"]
