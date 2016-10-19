@@ -55,6 +55,7 @@ RUN chmod 755 /*.sh
 # config to enable .htaccess
 #ADD apache_default /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
+RUN a2enmod vhost_alias
 
 # config to enable dynamic domains
 ADD apache_dynamic /etc/apache2/conf-available/apache-dynamic.conf
