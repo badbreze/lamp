@@ -3,6 +3,10 @@
 VOLUME_HOME="/var/lib/mysql"
 PHP_INI="/etc/php/7.0/apache2/php.ini"
 
+if [ -z "$ROOT_PASS" ]; then
+	echo "root:$ROOT_PASS" | chpasswd
+fi
+
 sed -ri -e "s/^upload_max_filesize.*/upload_max_filesize = ${PHP_UPLOAD_MAX_FILESIZE}/" \
     -e "s/^post_max_size.*/post_max_size = ${PHP_POST_MAX_SIZE}/" $PHP_INI
 if [[ ! -d $VOLUME_HOME/mysql ]]; then
