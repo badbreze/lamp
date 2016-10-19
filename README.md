@@ -1,11 +1,3 @@
-tutum-docker-lamp
-=================
-
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
-
-Out-of-the-box LAMP image (PHP+MySQL)
-
-
 Usage
 -----
 
@@ -122,6 +114,3 @@ Disabling .htaccess
 	# config to enable .htaccess
     ADD apache_default /etc/apache2/sites-available/000-default.conf
     RUN a2enmod rewrite
-
-
-**by http://www.tutum.co**
