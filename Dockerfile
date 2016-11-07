@@ -31,6 +31,7 @@ RUN apt-get update && \
     php7.0-tidy \
     php7.0-intl \
     php7.0-bz2 \
+    php7.0-bcmath \
     php7.0-mbstring \
     php-apcu \
     php-pear \
@@ -70,12 +71,17 @@ ENV NOTVISIBLE "in users profile"
 RUN echo "export VISIBLE=now" >> /etc/profile
 
 # Configure /app folder with sample app
-RUN git clone https://github.com/fermayo/hello-world-lamp.git /app
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
 
+#Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+#Install fxp
+RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
+
 #Environment variables to configure php
-ENV PHP_UPLOAD_MAX_FILESIZE 10M
-ENV PHP_POST_MAX_SIZE 10M
+ENV PHP_UPLOAD_MAX_FILESIZE 100M
+ENV PHP_POST_MAX_SIZE 100M
 
 EXPOSE 22 80 443 3306
 CMD ["/run.sh"]
