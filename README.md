@@ -1,37 +1,3 @@
-tutum-docker-lamp
-=================
-
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
-
-Out-of-the-box LAMP image (PHP+MySQL)
-
-
-Usage
------
-
-To create the image `tutum/lamp`, execute the following command on the tutum-docker-lamp folder:
-
-	docker build -t tutum/lamp .
-
-You can now push your new image to the registry:
-
-	docker push tutum/lamp
-
-
-Running your LAMP docker image
-------------------------------
-
-Start your image binding the external ports 80 and 3306 in all interfaces to your container:
-
-	docker run -d -p 80:80 -p 3306:3306 tutum/lamp
-
-Test your deployment:
-
-	curl http://localhost/
-
-Hello world!
-
-
 Loading your custom PHP application
 -----------------------------------
 
@@ -122,6 +88,3 @@ Disabling .htaccess
 	# config to enable .htaccess
     ADD apache_default /etc/apache2/sites-available/000-default.conf
     RUN a2enmod rewrite
-
-
-**by http://www.tutum.co**
