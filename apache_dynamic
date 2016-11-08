@@ -8,10 +8,10 @@ UseCanonicalName Off
 	LogFormat "%V %h %l %u %t \"%r\" %s %b" vcommon
 
 	# include the server name in the filenames used to satisfy requests
-	VirtualDocumentRoot "/app/%0/httpdocs/yii2app/web"
-	VirtualScriptAlias  "/app/%0/cgi-bin"
+	VirtualDocumentRoot "/var/www/hosts/%0/httpdocs/yii2app/web"
+	VirtualScriptAlias  "/var/www/hosts/%0/cgi-bin"
 
-	<Directory /app/>
+	<Directory /var/www/hosts/>
 		Options FollowSymLinks
 		AllowOverride All
 	</Directory>

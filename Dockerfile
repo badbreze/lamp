@@ -74,7 +74,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 RUN echo "MaxSessions 30" >> /etc/ssh/sshd_config
 
 # Configure /app folder with sample app
-RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
+RUN mkdir -p /app && rm -fr /var/www && ln -s /app /var/www
 
 #Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
