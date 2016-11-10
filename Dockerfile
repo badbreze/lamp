@@ -15,6 +15,7 @@ RUN apt-get update && \
     ruby \
     git \
     vim \
+    jq \
     zip \
     nano \
     unzip \
@@ -72,6 +73,7 @@ RUN echo "export VISIBLE=now" >> /etc/profile
 
 ##Max connections
 RUN echo "MaxSessions 30" >> /etc/ssh/sshd_config
+RUN service ssh restart
 
 # Configure /app folder with sample app
 RUN mkdir -p /app && rm -fr /var/www && ln -s /app /var/www
